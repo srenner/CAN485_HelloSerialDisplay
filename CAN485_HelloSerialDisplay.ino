@@ -5,14 +5,23 @@ AltSoftSerial lcd;
 void setup() {
   lcd.begin(9600);
   delay(500); //wait for bootup
-
   clearSerialLCD();
 }
 
 void loop() {
-  lcd.write("Hello World ");
-  delay(100);
   clearSerialLCD();
+  delay(200);
+  
+  setCursorPosition(1,1);
+  lcd.write("Hello World");
+  delay(200);
+
+  clearSerialLCD();
+  delay(200);
+
+  setCursorPosition(2,1);
+  lcd.write("Hello World");
+  delay(200);
 }
 
 //not working reliably
@@ -22,16 +31,19 @@ void setAsSplash() {
   delay(500); 
 }
 
-void clearSerialLCD() {
-  // move cursor to beginning of first line
-  lcd.write(254); 
-  lcd.write(128);
+void setCursorPosition(int row, int column) {
+  lcd.write(254);
+  if(row == 1) {
+    lcd.write(127 + column);
+  }
+  else if(row == 2) {
+    lcd.write(191 + column);
+  }
+}
 
-  // clear display by sending spaces
+void clearSerialLCD() {
+  setCursorPosition(1,1);
   lcd.write("                "); 
   lcd.write("                ");
-
-  // move cursor to beginning of first line
-  lcd.write(254); 
-  lcd.write(128);  
+  setCursorPosition(1,1);
 }

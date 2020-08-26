@@ -1,6 +1,13 @@
 #include <AltSoftSerial.h>
+#include "Can485DisplayHelper.h"
 
 AltSoftSerial lcd;
+
+void DisplayInit() {
+    lcd.begin(9600);
+    delay(500); //wait for bootup
+    clearDisplay();
+}
 
 void setCursorPosition(int row, int column) {
     lcd.write(254);
@@ -28,10 +35,4 @@ void setSplash() {
 
 void writeToDisplay(char *content) {
     lcd.write(content);
-}
-
-void DisplayInit() {
-    lcd.begin(9600);
-    delay(500); //wait for bootup
-    clearDisplay();
 }

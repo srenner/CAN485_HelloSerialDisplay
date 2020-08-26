@@ -7,6 +7,74 @@ void DisplayInit() {
     lcd.begin(9600);
     delay(500); //wait for bootup
     clearDisplay();
+
+    //create custom chars
+    byte fill1[8] = {
+        0x10,
+        0x10,
+        0x10,
+        0x10,
+        0x10,
+        0x10,
+        0x10,
+        0x10
+    };
+    byte fill2[8] = {
+        0x18,
+        0x18,
+        0x18,
+        0x18,
+        0x18,
+        0x18,
+        0x18,
+        0x18
+    };
+    byte fill3[8] = {
+        0x1C,
+        0x1C,
+        0x1C,
+        0x1C,
+        0x1C,
+        0x1C,
+        0x1C,
+        0x1C
+    };
+    byte fill4[8] = {
+        0x1E,
+        0x1E,
+        0x1E,
+        0x1E,
+        0x1E,
+        0x1E,
+        0x1E,
+        0x1E
+    };
+    byte fill5[8] = {
+        0x1F,
+        0x1F,
+        0x1F,
+        0x1F,
+        0x1F,
+        0x1F,
+        0x1F,
+        0x1F
+    };
+    byte fillMiddle[8] = {
+        0x04,
+        0x04,
+        0x04,
+        0x04,
+        0x04,
+        0x04,
+        0x04,
+        0x04  
+    };
+    createCustomChar(0, fill1);
+    createCustomChar(1, fill2);
+    createCustomChar(2, fill3);
+    createCustomChar(3, fill4);
+    createCustomChar(4, fill5);
+    createCustomChar(5, fillMiddle);
 }
 
 void setCursorPosition(int row, int column) {
@@ -35,4 +103,14 @@ void setSplash() {
 
 void writeToDisplay(char *content) {
     lcd.write(content);
+}
+
+void createCustomChar(int pos, byte data[]) {
+    lcd.write(0xFE);
+    lcd.write(0x4E);
+    lcd.write((uint8_t)pos);
+    for(int i = 0; i < 8; i++) {
+        lcd.write(data[i]);
+    }
+    delay(10); 
 }

@@ -8,6 +8,10 @@ void DisplayInit() {
     delay(500); //wait for bootup
     clearDisplay();
 
+    //set brightness (128-157)
+    //lcd.write(0x7C);
+    //lcd.write(157);
+
     //create custom chars
     byte fill1[8] = {
         0x10,
@@ -29,6 +33,7 @@ void DisplayInit() {
         0x18,
         0x18
     };
+
     byte fill3[8] = {
         0x1C,
         0x1C,
@@ -39,6 +44,7 @@ void DisplayInit() {
         0x1C,
         0x1C
     };
+
     byte fill4[8] = {
         0x1E,
         0x1E,
@@ -88,10 +94,8 @@ void setCursorPosition(int row, int column) {
 }
 
 void clearDisplay() {
-    setCursorPosition(1,1);
-    lcd.write("                "); 
-    lcd.write("                ");
-    setCursorPosition(1,1);
+    lcd.write(0xFE);
+    lcd.write(0x01);
 }
 
 //writes the current display as the splash screen
@@ -105,6 +109,10 @@ void writeToDisplay(char *content) {
     lcd.write(content);
 }
 
+void writeToDisplay(uint8_t content) {
+    lcd.write(content);
+}
+
 void createCustomChar(int pos, byte data[]) {
     lcd.write(0xFE);
     lcd.write(0x4E);
@@ -113,4 +121,12 @@ void createCustomChar(int pos, byte data[]) {
         lcd.write(data[i]);
     }
     delay(10); 
+}
+
+void printCustomChars() {
+    clearDisplay();
+    setCursorPosition(1,1);
+    //Serial.write(254);
+    //Serial.write()
+    
 }

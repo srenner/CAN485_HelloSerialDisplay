@@ -4,6 +4,8 @@
 #define BLOCK 255
 
 void setup() {
+  Serial.begin(9600);
+  Serial.println("Serial Started");
   DisplayInit();
 }
 
@@ -17,6 +19,8 @@ void loop() {
   clearDisplay();
   delay(200);
 
+  writecharLCD();
+  delay(2000);
   //printMockGauges();
 
   //setCursorPosition(2,1);

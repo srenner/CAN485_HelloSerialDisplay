@@ -6,3 +6,5 @@ void writeToDisplay(char *);
 void writeToDisplay(uint8_t);
 void createCustomChar(int,byte[]);
 void printCustomChars();
+void writecharLCD();
+void LCDbar10(short, int, short, short);

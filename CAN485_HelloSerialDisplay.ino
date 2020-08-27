@@ -17,7 +17,7 @@ void loop() {
   clearDisplay();
   delay(200);
 
-  printMockGauges();
+  //printMockGauges();
 
   //setCursorPosition(2,1);
   // for(int i = 0; i < 6; i++) {
@@ -26,9 +26,7 @@ void loop() {
   //   delay(50);
   // }
 
-  //printCustomChars();
-
-  delay(5000);
+  //delay(5000);
 }
 
 void printMockGauges() {
@@ -44,6 +42,4 @@ void printMockGauges() {
   writeToDisplay(BLOCK);
   writeToDisplay(BLOCK);
   writeToDisplay(BLOCK);
-
 }
-

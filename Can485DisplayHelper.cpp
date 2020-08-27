@@ -98,7 +98,7 @@ void clearDisplay() {
     lcd.write(0x01);
 }
 
-//writes the current display as the splash screen
+//writes the current display as the splash screen (not reliable)
 void setSplash() {
     lcd.write(0x7C);
     lcd.write(0x09);
@@ -126,7 +126,4 @@ void createCustomChar(int pos, byte data[]) {
 void printCustomChars() {
     clearDisplay();
     setCursorPosition(1,1);
-    //Serial.write(254);
-    //Serial.write()
-    
 }

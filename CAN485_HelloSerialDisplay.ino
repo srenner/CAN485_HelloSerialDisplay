@@ -18,11 +18,16 @@ void loop() {
   delay(200);
 
   setCursorPosition(2,1);
-  if(true) {
+  if(false) {
     for(int i = 0; i < 6; i++) {
       writeToDisplay(i);
       delay(50);
     }
+  }
+  if(true) {
+    writeToDisplay(BLOCK);
+    writeToDisplay(BLOCK);
+
   }
 
 

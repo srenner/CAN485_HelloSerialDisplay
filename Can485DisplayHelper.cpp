@@ -2,6 +2,8 @@
 #include "Can485DisplayHelper.h"
 
 AltSoftSerial lcd;
+#define SPECIAL_COMMAND 254  //0xFE, Magic number for sending a special command
+#define SETTING_COMMAND 0x7C //124, |, the pipe character: The command to change settings: baud, lines, width, backlight, splash, etc
 
 void DisplayInit() {
     lcd.begin(9600);
@@ -33,7 +35,6 @@ void DisplayInit() {
         0x18,
         0x18
     };
-
     byte fill3[8] = {
         0x1C,
         0x1C,
@@ -44,7 +45,6 @@ void DisplayInit() {
         0x1C,
         0x1C
     };
-
     byte fill4[8] = {
         0x1E,
         0x1E,
@@ -75,12 +75,16 @@ void DisplayInit() {
         0x04,
         0x04  
     };
-    // createCustomChar(0, fill1);
-    // createCustomChar(1, fill2);
-    // createCustomChar(2, fill3);
-    // createCustomChar(3, fill4);
-    // createCustomChar(4, fill5);
-    // createCustomChar(5, fillMiddle);
+    
+    if(true) {
+        createCustomChar(0, fill1);
+        createCustomChar(1, fill2);
+        createCustomChar(2, fill3);
+        createCustomChar(3, fill4);
+        createCustomChar(4, fill5);
+        createCustomChar(5, fillMiddle);
+    }
+
 }
 
 void setCursorPosition(int row, int column) {
@@ -100,7 +104,7 @@ void clearDisplay() {
 
 //writes the current display as the splash screen (not reliable)
 void setSplash() {
-    lcd.write(0x7C);
+    lcd.write(SETTING_COMMAND);
     lcd.write(0x09);
     delay(500); 
 }
@@ -114,13 +118,15 @@ void writeToDisplay(uint8_t content) {
 }
 
 void createCustomChar(int pos, byte data[]) {
-    lcd.write(0xFE);
+
+
+    lcd.write(SETTING_COMMAND);
     lcd.write(0x4E);
     lcd.write((uint8_t)pos);
     for(int i = 0; i < 8; i++) {
         lcd.write(data[i]);
     }
-    delay(10); 
+    delay(50);
 }
 
 void printCustomChars() {
@@ -128,7 +134,22 @@ void printCustomChars() {
     setCursorPosition(1,1);
 }
 
-
+/*
+void SerLCD::createChar(byte location, byte charmap[])
+{
+  location &= 0x7; // we only have 8 locations 0-7
+  beginTransmission();
+  //Send request to create a customer character
+  transmit(SETTING_COMMAND); //Put LCD into setting mode
+  transmit(27 + location);
+  for (int i = 0; i < 8; i++)
+  {
+    transmit(charmap[i]);
+  } // for
+  endTransmission();
+  delay(50); //This takes a bit longer
+}
+*/
 
 
 
@@ -158,39 +179,3 @@ void writecharLCD() {
  delay(100);  
 }
 
-void LCDbar10(short percent, int value, short line, short terminator) {
- short cols, blox, numchar;
-
- lcd.write(0xFE);
- lcd.write(128+line);
-
- if (percent > 100) {
-   percent = 100;
- }
-
- cols = percent/2;                     // x 0.5 (100% = 50 pixels)
- blox = cols/5;                        // calculate whole blocks
-
- if (blox > 0) {
-   for (short idx = 1; idx <= blox; idx++) {
-     lcd.write(5);
-   }
- }
-
- lcd.write(cols % 5);
- 
- while (blox < 9) {                  // clear end of graph display
-   //lcd.write(0);
-   blox ++;
- }
- 
- lcd.write(0xFE);
- lcd.write(128+10+line);
- lcd.write(terminator);
- 
- if (value < 10)   {lcd.print(" ");} //Number formating
- if (value < 100)  {lcd.print(" ");}
- if (value < 1000) {lcd.print(" ");}
- 
- lcd.print(value, DEC);
-}

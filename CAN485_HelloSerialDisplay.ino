@@ -4,8 +4,6 @@
 #define BLOCK 255
 
 void setup() {
-  Serial.begin(9600);
-  Serial.println("Serial Started");
   DisplayInit();
 }
 
@@ -19,18 +17,16 @@ void loop() {
   clearDisplay();
   delay(200);
 
-  writecharLCD();
+  setCursorPosition(2,1);
+  if(true) {
+    for(int i = 0; i < 6; i++) {
+      writeToDisplay(i);
+      delay(50);
+    }
+  }
+
+
   delay(2000);
-  //printMockGauges();
-
-  //setCursorPosition(2,1);
-  // for(int i = 0; i < 6; i++) {
-  //   writeToDisplay(i);
-  //   //writeToDisplay(255);
-  //   delay(50);
-  // }
-
-  //delay(5000);
 }
 
 void printMockGauges() {
